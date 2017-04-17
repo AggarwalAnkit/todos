@@ -1,20 +1,23 @@
 import React from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 
-const Todo = ({ todo }) => {
+const Todo = ({ todo, onPress }) => {
   const {
-    todoContainerStyle,
-    titleStyle,
-    bodyStyle
+    todoContainerStyle, titleStyle, bodyStyle
   } = styles;
+
+  const {
+    title, body
+  } = todo;
+
   return (
-    <TouchableOpacity style={todoContainerStyle} onPress={() => console.log('pressed')}>
+    <TouchableOpacity style={todoContainerStyle} onPress={onPress}>
       <View>
         <Text style={titleStyle}>
-          {todo.title}
+          {title}
         </Text>
         <Text style={bodyStyle}>
-          {todo.body}
+          {body}
         </Text>
       </View>
     </TouchableOpacity>

@@ -14,7 +14,8 @@ class TodoList extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props !== nextProps) {
-      this.setState({ dataSource: this.state.dataSource.cloneWithRows(nextProps) });
+      const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+      this.setState({ dataSource: ds.cloneWithRows(nextProps.todos) });
     }
   }
 
@@ -27,7 +28,9 @@ class TodoList extends Component {
       <ListView
         enableEmptySections
         dataSource={this.state.dataSource}
-        renderRow={(todo) => <Todo todo={todo} />}
+        renderRow={
+          (todo) => <Todo key={todo.id} todo={todo} onPress={() => console.log('pressed')} />
+        }
       />
     );
   }
