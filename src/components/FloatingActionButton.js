@@ -1,14 +1,14 @@
 import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 
-const FloatingActionButton = ({ buttonText }) => {
+const FloatingActionButton = ({ buttonText, onPress }) => {
   const {
     floatingButtonStyle,
     floatingButtonTextStyle
   } = styles;
 
   return (
-    <TouchableOpacity style={floatingButtonStyle}>
+    <TouchableOpacity style={floatingButtonStyle} onPress={onPress}>
       <Text style={floatingButtonTextStyle}>
         {buttonText}
       </Text>

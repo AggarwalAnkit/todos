@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import TodoList from '../components/TodoList';
 import FloatingActionButton from '../components/FloatingActionButton';
 import Spinner from '../components/Spinner';
+import addTodoModal from '../modals/AddTodoModal';
 
 const firebaseApp = firebase.initializeApp({
   apiKey: 'AIzaSyD_AsenIvyvg_a16ORJfu8q2Fe84axztSo',
@@ -18,7 +19,7 @@ class App extends Component {
 
   constructor() {
     super();
-    this.state = { isLoading: true, todos: [] };
+    this.state = { modalVisible: false, isLoading: true, todos: [] };
     this.todosRef = firebaseApp.database().ref('todos/');
   }
 
@@ -34,6 +35,10 @@ class App extends Component {
     this.addItemRemoveListener(this.todosRef);
   }
 
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+
   getAllTodos(todosRef) {
     todosRef.once('value', (snapshots) => {
       //snapshots.val() is an object containg all items with key value pair
@@ -46,7 +51,6 @@ class App extends Component {
           body: val[key].body
         }
       ));
-
       this.setState({ todos, isLoading: false });
     });
   }
@@ -55,14 +59,16 @@ class App extends Component {
     todosRef.on('child_changed', (snapshot) => {
       if (snapshot) {
       this.setState({
-          todos: [
-            ...this.state.todos,
-            {
-              id: snapshot.key,
-              title: snapshot.val().title,
-              body: snapshot.val().body
+          todos: this.state.todos.map((todo) => {
+            if (todo.id === snapshot.key) {
+              return {
+                id: snapshot.key,
+                title: snapshot.val().title,
+                body: snapshot.val().body
+              };
             }
-          ]
+            return todo;
+          })
         });
       }
     });
@@ -72,14 +78,7 @@ class App extends Component {
     todosRef.on('child_removed', (snapshot) => {
       if (snapshot) {
       this.setState({
-          todos: [
-            ...this.state.todos,
-            {
-              id: snapshot.key,
-              title: snapshot.val().title,
-              body: snapshot.val().body
-            }
-          ]
+          todos: this.state.todos.filter(todo => todo.id !== snapshot.key)
         });
       }
     });
@@ -100,6 +99,16 @@ class App extends Component {
         });
       }
     });
+  }
+
+  saveTodo(title, body) {
+    this.setModalVisible(!this.state.modalVisible);
+    this.setState({ isLoading: true });
+    this.todosRef.push({
+      title,
+      body
+    });
+    this.setState({ isLoading: false });
   }
 
   renderTodos() {
@@ -129,10 +138,22 @@ class App extends Component {
         {/*render todos list*/}
         {this.renderTodos()}
 
-        {/*render floating button*/}
-        <View style={floatingButtonContainerStyle}>
-          <FloatingActionButton buttonText="+" />
-        </View>
+        {/*render modal*/}
+        {
+          addTodoModal(this.state.modalVisible,
+          this.saveTodo.bind(this))
+        }
+
+        {/*render floating button if app is not loading*/}
+        {
+          !this.state.isLoading &&
+          <View style={floatingButtonContainerStyle}>
+            <FloatingActionButton
+              buttonText="+"
+              onPress={() => this.setModalVisible(true)}
+            />
+          </View>
+        }
       </View>
 
     );
