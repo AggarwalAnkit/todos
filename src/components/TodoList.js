@@ -29,7 +29,12 @@ class TodoList extends Component {
         enableEmptySections
         dataSource={this.state.dataSource}
         renderRow={
-          (todo) => <Todo key={todo.id} todo={todo} onPress={() => console.log('pressed')} />
+          (todo) =>
+          <Todo
+            key={todo.id}
+            todo={todo}
+            onPress={() => this.props.deleteTodo(todo.id)}
+          />
         }
       />
     );

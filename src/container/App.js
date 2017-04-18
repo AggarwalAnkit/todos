@@ -103,11 +103,21 @@ class App extends Component {
 
   saveTodo(title, body) {
     this.setModalVisible(!this.state.modalVisible);
+    if (!title || !body) {
+      return;
+    }
     this.setState({ isLoading: true });
     this.todosRef.push({
       title,
       body
     });
+    this.setState({ isLoading: false });
+  }
+
+  deleteTodo(id) {
+    console.log(id);
+    this.setState({ isLoading: true });
+    this.todosRef.child(id).remove();
     this.setState({ isLoading: false });
   }
 
@@ -117,7 +127,12 @@ class App extends Component {
     }
 
     if (this.state.todos && this.state.todos.length > 0) {
-      return <TodoList todos={this.state.todos} />;
+      return (
+        <TodoList
+          todos={this.state.todos}
+          deleteTodo={(id) => this.deleteTodo(id)}
+        />
+      );
     }
 
     const { emptyTodoContainerStyle, emptyTodoTextStyle } = styles;

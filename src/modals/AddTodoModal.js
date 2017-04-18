@@ -29,7 +29,6 @@ const styles = {
 };
 
 export default function addTodoModal(visible, onPressSave) {
-  console.log('test');
   const {
     titleInputStyle,
     bodyInputStyle,
