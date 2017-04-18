@@ -49,6 +49,7 @@ export default function addTodoModal(visible, onPressSave) {
           autoCapitalize='none'
           maxLength={50}
           style={titleInputStyle}
+          underlineColorAndroid='#00000000'
           onChangeText={(text) => { this.title = text; }}
         />
 
@@ -59,6 +60,8 @@ export default function addTodoModal(visible, onPressSave) {
           multiline
           numberOfLines={10}
           style={bodyInputStyle}
+          textAlignVertical='top'
+          underlineColorAndroid='#00000000'
           onChangeText={(text) => { this.body = text; }}
         />
 

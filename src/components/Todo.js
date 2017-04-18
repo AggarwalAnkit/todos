@@ -29,7 +29,7 @@ const styles = {
     borderWidth: 1,
     borderRadius: 2,
     borderColor: '#ddd',
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#fefefe',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,

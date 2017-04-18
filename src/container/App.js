@@ -115,7 +115,6 @@ class App extends Component {
   }
 
   deleteTodo(id) {
-    console.log(id);
     this.setState({ isLoading: true });
     this.todosRef.child(id).remove();
     this.setState({ isLoading: false });
@@ -146,7 +145,7 @@ class App extends Component {
   render() {
     const { floatingButtonContainerStyle } = styles;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, paddingBottom: 20 }}>
         {/*render header*/}
         <Header title="My Todos" />
 
