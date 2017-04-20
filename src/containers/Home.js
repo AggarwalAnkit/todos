@@ -6,6 +6,8 @@ import Header from '../components/Header';
 import TodoList from '../components/TodoList';
 import FloatingActionButton from '../components/FloatingActionButton';
 import Spinner from '../components/Spinner';
+import CreateOrEditTodo from './CreateOrEditTodo';
+import { ROUTE_TYPE_MODAL } from '../configs/navigation/SceneNavigator';
 
 const firebaseApp = firebase.initializeApp({
   apiKey: 'AIzaSyD_AsenIvyvg_a16ORJfu8q2Fe84axztSo',
@@ -20,7 +22,7 @@ class Home extends Component {
     super();
     this.state = { isLoading: true, todos: [] };
     this.todosRef = firebaseApp.database().ref('todos/');
-    this.navigate = this.navigate.bind(this);
+    this.createEditTodo = this.createEditTodo.bind(this);
   }
 
   componentWillMount() {
@@ -36,7 +38,7 @@ class Home extends Component {
   }
 
   onTodoPressed(todo) {
-    this.navigate('create_edit_todo', this.editTodo.bind(this), todo);
+    this.createEditTodo({ callback: this.editTodo.bind(this), todo });
   }
 
   getAllTodos(todosRef) {
@@ -136,11 +138,11 @@ class Home extends Component {
     this.setState({ isLoading: false });
   }
 
-  navigate(title, callback, todo) {
+  createEditTodo(passProps, type = ROUTE_TYPE_MODAL) {
     this.props.navigator.push({
-      title,
-      callback,
-      todo
+      component: CreateOrEditTodo,
+      passProps,
+      type
     });
   }
 
@@ -183,7 +185,11 @@ class Home extends Component {
           <View style={floatingButtonContainerStyle}>
             <FloatingActionButton
               buttonText="+"
-              onPress={() => this.navigate('create_edit_todo', this.saveTodo.bind(this))}
+              onPress={
+                () => (
+                  this.createEditTodo({ callback: this.saveTodo.bind(this) })
+                )
+              }
             />
           </View>
         }
