@@ -1,52 +1,81 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, TextInput } from 'react-native';
 import FloatingActionButton from '../components/FloatingActionButton';
 
-const CreateOrEditTodo = ({ saveTodo, navigator }) => {
-  const {
-    titleInputStyle,
-    bodyInputStyle,
-    saveButtonContainerStyle,
-  } = styles;
-  return (
-    <View style={{ marginTop: 20, flex: 1 }}>
-      <TextInput
-        placeholder='Title'
-        autoCorrect={false}
-        autoCapitalize='none'
-        maxLength={50}
-        style={titleInputStyle}
-        underlineColorAndroid='#00000000'
-        onChangeText={(text) => { this.title = text; }}
-      />
+class CreateOrEditTodo extends Component {
 
-      <TextInput
-        placeholder='Enter Todo Text'
-        autoCorrect={false}
-        autoCapitalize='none'
-        multiline
-        numberOfLines={10}
-        style={bodyInputStyle}
-        textAlignVertical='top'
-        underlineColorAndroid='#00000000'
-        onChangeText={(text) => { this.body = text; }}
-      />
+  constructor(props) {
+    super(props);
+    this.state = this.getInitialStateFroProps();
+  }
 
-      {/*render floating button*/}
-      <View style={saveButtonContainerStyle}>
-        <FloatingActionButton
-          buttonText="&#x2713;"
-          onPress={() => {
-            saveTodo(this.title, this.body);
-            this.title = undefined;
-            this.body = undefined;
-            navigator.pop();
-          }}
+  getInitialStateFroProps() {
+    if (this.props.todo) {
+      return {
+        title: this.props.todo.title,
+        body: this.props.todo.body,
+        id: this.props.todo.id
+      };
+    }
+
+    return {
+      title: '',
+      body: '',
+      id: ''
+    };
+  }
+
+  render() {
+    const {
+      titleInputStyle,
+      bodyInputStyle,
+      saveButtonContainerStyle,
+    } = styles;
+
+    return (
+      <View style={{ marginTop: 20, flex: 1 }}>
+        <TextInput
+          placeholder='Title'
+          autoCorrect={false}
+          autoCapitalize='none'
+          maxLength={50}
+          value={this.state.title}
+          style={titleInputStyle}
+          underlineColorAndroid='#00000000'
+          onChangeText={(title) => this.setState({ title })}
         />
+
+        <TextInput
+          placeholder='Enter Todo Text'
+          autoCorrect={false}
+          autoCapitalize='none'
+          multiline
+          numberOfLines={10}
+          value={this.state.body}
+          style={bodyInputStyle}
+          textAlignVertical='top'
+          underlineColorAndroid='#00000000'
+          onChangeText={(body) => this.setState({ body })}
+        />
+
+        {/*render floating button*/}
+        <View style={saveButtonContainerStyle}>
+          <FloatingActionButton
+            buttonText="&#x2713;"
+            onPress={() => {
+              if (this.props.todo) {
+                this.props.callback(this.state.title, this.state.body, this.state.id);
+              } else {
+                this.props.callback(this.state.title, this.state.body);
+              }
+              this.props.navigator.pop();
+            }}
+          />
+        </View>
       </View>
-    </View>
-  );
-};
+    );
+  }
+}
 
 const styles = {
   titleInputStyle: {

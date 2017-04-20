@@ -14,7 +14,7 @@ class App extends Component {
     if (route.title === 'home') {
       return <Home navigator={navigator} />;
     } else if (route.title === 'create_edit_todo') {
-      return <CreateOrEditTodo navigator={navigator} saveTodo={route.saveTodo} />;
+      return <CreateOrEditTodo navigator={navigator} callback={route.callback} todo={route.todo} />;
     }
 
     return <View />;

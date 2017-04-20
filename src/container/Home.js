@@ -35,6 +35,10 @@ class Home extends Component {
     this.addItemRemoveListener(this.todosRef);
   }
 
+  onTodoPressed(todo) {
+    this.navigate('create_edit_todo', this.editTodo.bind(this), todo);
+  }
+
   getAllTodos(todosRef) {
     todosRef.once('value', (snapshots) => {
       //snapshots.val() is an object containg all items with key value pair
@@ -115,10 +119,28 @@ class Home extends Component {
     this.setState({ isLoading: false });
   }
 
-  navigate(title, saveTodo) {
+  editTodo(title, body, id) {
+    if (!id) {
+      return;
+    }
+
+    this.setState({ isLoading: true });
+    if (!title && !body) {
+      this.todosRef.child(id).set(null);
+    } else {
+      this.todosRef.child(id).set({
+        title,
+        body
+      });
+    }
+    this.setState({ isLoading: false });
+  }
+
+  navigate(title, callback, todo) {
     this.props.navigator.push({
       title,
-      saveTodo
+      callback,
+      todo
     });
   }
 
@@ -131,6 +153,7 @@ class Home extends Component {
       return (
         <TodoList
           todos={this.state.todos}
+          onTodoPressed={(todo) => this.onTodoPressed(todo)}
           deleteTodo={(id) => this.deleteTodo(id)}
         />
       );

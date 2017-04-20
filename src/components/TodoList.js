@@ -33,7 +33,8 @@ class TodoList extends Component {
           <Todo
             key={todo.id}
             todo={todo}
-            onPress={() => this.props.deleteTodo(todo.id)}
+            onPress={() => this.props.onTodoPressed(todo)}
+            onLongPress={() => this.props.deleteTodo(todo.id)}
           />
         }
       />
