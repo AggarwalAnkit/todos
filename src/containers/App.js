@@ -1,13 +1,13 @@
 import React from 'react';
 import { Navigator } from 'react-native';
 
-import * as SceneNavigator from '../configs/navigation/SceneNavigator';
+import { initialRoute, configureScene, renderScene } from '../configs/navigation/SceneNavigator';
 
 const App = () => (
   <Navigator
-    initialRoute={SceneNavigator.initialRoute}
-    configureScene={SceneNavigator.configureScene}
-    renderScene={SceneNavigator.renderScene}
+    initialRoute={initialRoute}
+    configureScene={configureScene}
+    renderScene={renderScene}
   />
 );
 
