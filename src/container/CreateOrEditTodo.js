@@ -38,6 +38,8 @@ const CreateOrEditTodo = ({ saveTodo, navigator }) => {
           buttonText="&#x2713;"
           onPress={() => {
             saveTodo(this.title, this.body);
+            this.title = undefined;
+            this.body = undefined;
             navigator.pop();
           }}
         />

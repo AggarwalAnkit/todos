@@ -98,7 +98,6 @@ class Home extends Component {
   }
 
   saveTodo(title, body) {
-    console.log('came here');
     if (!title || !body) {
       return;
     }
