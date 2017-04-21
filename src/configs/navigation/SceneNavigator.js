@@ -3,7 +3,7 @@
 */
 import React from 'react';
 import { Navigator } from 'react-native';
-import Home from '../../containers/Home';
+import MyTodos from '../../containers/MyTodos';
 
 //if you want to navigate a scene like a modal then pass 'type' as ROUTE_TYPE_MODAL to route
 export const ROUTE_TYPE_MODAL = 'navigation/SceneNavigator/modal';
@@ -25,9 +25,9 @@ export const renderScene = (route, navigator) => (
   <route.component navigator={navigator} {...route.passProps} />
 );
 
-//open home screen as inital route
+//open MyTodos screen as inital route
 export const initialRoute = {
-  component: Home,
+  component: MyTodos,
   passProps: {
     screenTitle: 'My Todos'
   },
