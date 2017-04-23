@@ -59,8 +59,8 @@ class MyTodos extends Component {
       return (
         <TodoList
           todos={this.props.todos}
-          onTodoPressed={(todo) => this.onTodoPressed(todo)}
-          deleteTodo={(id) => this.props.deleteTodo(id)}
+          onTodoPressed={this.onTodoPressed.bind(this)}
+          deleteTodo={this.props.deleteTodo.bind(this)}
         />
       );
     }
@@ -89,11 +89,9 @@ class MyTodos extends Component {
           <View style={floatingButtonContainerStyle}>
             <FloatingActionButton
               buttonText="+"
-              onPress={
-                () => (
-                  this.navigateToCreateOrEditTodo({ callback: this.props.addTodo })
-                )
-              }
+              onPress={() => (
+                this.navigateToCreateOrEditTodo({ callback: this.props.addTodo })
+              )}
             />
           </View>
         }

@@ -6,10 +6,10 @@ class CreateOrEditTodo extends Component {
 
   constructor(props) {
     super(props);
-    this.state = this.getInitialStateFroProps();
+    this.state = this.getInitialStateFromProps();
   }
 
-  getInitialStateFroProps() {
+  getInitialStateFromProps() {
     if (this.props.todo) {
       return {
         title: this.props.todo.title,
