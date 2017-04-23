@@ -38,7 +38,7 @@ class TodoList extends Component {
       <ListView
         enableEmptySections
         dataSource={this.state.dataSource}
-        renderRow={this.renderRow}
+        renderRow={this.renderRow.bind(this)}
       />
     );
   }

@@ -59,8 +59,8 @@ class MyTodos extends Component {
       return (
         <TodoList
           todos={this.props.todos}
-          onTodoPressed={this.onTodoPressed}
-          deleteTodo={this.props.deleteTodo}
+          onTodoPressed={this.onTodoPressed.bind(this)}
+          deleteTodo={this.props.deleteTodo.bind(this)}
         />
       );
     }
