@@ -9,7 +9,7 @@ import MyTodos from '../../containers/MyTodos';
 export const ROUTE_TYPE_MODAL = 'navigation/SceneNavigator/modal';
 export const ROUTE_TYPE_NORMAL = 'navigation/SceneNavigator/normal';
 
-//provide this scene configuration to Navigator
+//provide this scene configuration to Navigator to create navigation animation
 export const configureScene = (route) => {
   if (route.type === ROUTE_TYPE_MODAL) {
     return Navigator.SceneConfigs.FloatFromBottom;
@@ -18,11 +18,14 @@ export const configureScene = (route) => {
 };
 
 //will be called to render a component (scene) when route is given to navigator
-//it passes navigator to newly rendring component
+//it passes navigator to newly rendering component
 //pass the component to be rendered in 'component' property.
 //pass props as 'passProps' object to pass the props to the rendring component
 export const renderScene = (route, navigator) => (
-  <route.component navigator={navigator} {...route.passProps} />
+  <route.component
+    navigator={navigator}
+    {...route.passProps}
+  />
 );
 
 //open MyTodos screen as inital route

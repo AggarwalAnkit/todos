@@ -17,7 +17,7 @@ const firebaseApp = firebase.initializeApp({
 
 const todosRef = firebaseApp.database().ref('todos/');
 
-const setLoadingTodos = (isLoadingTodos) => (
+export const setLoadingTodos = (isLoadingTodos) => (
   {
     type: LOADING_TODOS,
     payload: {
